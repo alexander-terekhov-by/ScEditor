@@ -6,6 +6,7 @@ import com.test.sceditor.repository.ScRelationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -45,30 +46,29 @@ public class ScRelationService {
         while (matcher.find()) {
             ScRelation rel = new ScRelation(matcher.group(1), matcher.group(5), matcher.group(10));
             parsedRelations.add(rel);
-            scRelationRepository.save(rel);
         }
-        return  parsedRelations;
+        return parsedRelations;
     }
 
 
-    public void createTerm() {
+    public String createTerm(Map<String, String> notionAttr) {
 
         String output = "";
         String termName = "Test_lake";
-        Map<ScRelation, String> term = new LinkedHashMap<>();
-        term.put(new ScRelation("nrel_altitude", "высота", "altitude"), "115");
-        term.put(new ScRelation("nrel_depth", "глубина", "depth"), "5");
-        term.put(new ScRelation("nrel_square", "площадь", "square"), "45");
-        for (Map.Entry<ScRelation, String> relation : term.entrySet()) {
-            output += toScs(termName, relation.getKey().getNodeName(), relation.getValue()) + "\n";
+        for (Map.Entry<String, String> relation : notionAttr.entrySet()) {
+            output += toScs(termName, relation.getKey(), relation.getValue()) + "\n";
         }
-        System.out.println(output);
-
-
+        return output;
     }
 
     private String toScs(String termName, String rel, String val) {
         return String.format("%s => %s: [%s];;", termName, rel, val);
 
     }
+
+
+    public List<ScRelation> getAll() {
+        return scRelationRepository.findAll();
+    }
+
 }

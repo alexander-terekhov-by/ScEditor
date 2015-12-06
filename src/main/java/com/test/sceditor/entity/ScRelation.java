@@ -24,6 +24,9 @@ public class ScRelation {
     @NotNull
     private String eng;
 
+    public ScRelation() {
+    }
+
     public ScRelation(String nodeName, String rus, String eng) {
         this.nodeName = nodeName;
         this.rus = rus;

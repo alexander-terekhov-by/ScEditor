@@ -19,7 +19,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     protected void handle(HttpServletRequest request,
                           HttpServletResponse response, Authentication authentication) throws IOException {
-        String targetUrl = "test";
+        String targetUrl = "relationviewer";
         System.out.println(authentication);
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }

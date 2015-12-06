@@ -1,5 +1,5 @@
 <html>
 <body>
-<a href="test">Log in</a>
+<a href="relationviewer">Log in</a>
 </body>
 </html>
