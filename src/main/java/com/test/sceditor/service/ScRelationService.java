@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -32,7 +31,6 @@ public class ScRelationService {
         return content;
     }
 
-
     public List<ScRelation> parseRelationScsFile(MultipartFile file) {
         Pattern p = Pattern.compile("(\\w+)\\s*<-\\s*(sc_node_norole_relation;;)\\s*\n" +
                 "(\\w)+\\s*=>\\s*(nrel_main_idtf:)\\s*\n" +
@@ -50,13 +48,11 @@ public class ScRelationService {
         return parsedRelations;
     }
 
-
-    public String createTerm(Map<String, String> notionAttr) {
+    public String createTerm(String notionName, Map<String, String> notionAttr) {
 
         String output = "";
-        String termName = "Test_lake";
         for (Map.Entry<String, String> relation : notionAttr.entrySet()) {
-            output += toScs(termName, relation.getKey(), relation.getValue()) + "\n";
+            output += toScs(notionName, relation.getKey(), relation.getValue()) + "\n";
         }
         return output;
     }
@@ -65,7 +61,6 @@ public class ScRelationService {
         return String.format("%s => %s: [%s];;", termName, rel, val);
 
     }
-
 
     public List<ScRelation> getAll() {
         return scRelationRepository.findAll();

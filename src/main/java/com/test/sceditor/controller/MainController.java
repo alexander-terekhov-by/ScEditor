@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,13 +48,14 @@ public class MainController {
     }
 
     @RequestMapping(value = "/makeScs", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    String makeNotionScs(@RequestParam("notion") String jsonNotionAttrs) {
+    public @ResponseBody Map<String,String> makeNotionScs(@RequestParam("id") String notionId, @RequestParam("notion") String jsonNotionAttrs) {
         Type stringStringMap = new TypeToken<Map<String, String>>() {
         }.getType();
         Map<String, String> map = new Gson().fromJson(jsonNotionAttrs, stringStringMap);
-        return scRelationService.createTerm(map);
+        Map<String, String> result = new HashMap<>();
+        result.put("name", notionId);
+        result.put("body", scRelationService.createTerm(notionId, map));
+        return  result;
     }
 
     @RequestMapping(value = "/uploadNotionTemplate", method = RequestMethod.POST)

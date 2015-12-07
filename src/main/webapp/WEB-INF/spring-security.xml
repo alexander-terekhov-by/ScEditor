@@ -6,7 +6,7 @@
 
     <http auto-config="true">
         <intercept-url pattern="/" access="permitAll"/>
-        <intercept-url pattern="/relationviewer" access="hasRole('USER')"/>
+        <intercept-url pattern="/relationviewer" access="permitAll"/>
         <intercept-url pattern="/upload" access="permitAll"/>
         <form-login authentication-success-handler-ref="customSuccessHandler"/>
         <csrf disabled="true"/>
